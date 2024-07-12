@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import "primeng/resources/themes/md-light-indigo/theme.css";
+@layer tailwind-base,primeng,tailwind-utilities;
+
+@import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 
-@layer tailwind-base, primeng, tailwind-utilities;
         
 @layer tailwind-base {
     @tailwind base;
@@ -11,4 +12,26 @@
 @layer tailwind-utilities {
     @tailwind components;
     @tailwind utilities;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+#app {
+  background-color: #eff1fd;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.p-inputtext{
+  width: 100%;
+}
+.p-input-icon-right{
+  width: 100%;
 }
