@@ -1,1 +1,62 @@
-<p>all-books works!</p>
+<main class="flex flex-col gap-5">
+  <p class="text-3xl font-bold text-stone-600">Books</p>
+  <div class="flex justify-between items-center">
+    <p-iconField class="xl:w-1/3" iconPosition="right">
+      <p-inputIcon styleClass="pi pi-search" />
+      <input
+        class="md:text-sm text-xs"
+        type="text"
+        pInputText
+        placeholder="Search"
+      />
+    </p-iconField>
+    <button
+      class="bg-blue-800 py-2.5 px-5 text-white font-semibold rounded-xl w-fit md:text-sm text-xs"
+    >
+      <i class="pi pi-plus md:text-sm text-xs"></i>
+      Add Book
+    </button>
+  </div>
+  <div class="card">
+    <p-table [value]="books" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Book Title</th>
+          <th>Bok Category</th>
+          <th>Book Author</th>
+          <th>Book ISBN</th>
+          <th>Book Version</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-book>
+        <tr>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.category }}</td>
+          <td>{{ book.ISBN }}</td>
+          <td>{{ book.version }}</td>
+          <td>
+            <div class="flex gap-4">
+              <a routerLink="/bookDetails"
+                ><span class="pi pi-eye text-blue-800"></span
+              ></a>
+              <a routerLink="/addBook"
+                ><span class="pi pi-pencil text-green-800"></span
+              ></a>
+              <span
+                (onClick)="confirm2($event)"
+                label="Delete"
+                severity="danger"
+                [outlined]="true"
+                class="pi pi-trash text-red-800"
+              ></span>
+
+              <p-confirmDialog />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</main>

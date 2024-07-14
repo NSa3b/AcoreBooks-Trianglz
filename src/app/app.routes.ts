@@ -4,10 +4,18 @@ import { AdminDashboardComponent } from './Layout/admin-dashboard/admin-dashboar
 import { AllBooksComponent } from './Views/all-books/all-books.component';
 import { AddBookComponent } from './Views/add-book/add-book.component';
 import { BookDetailsComponent } from './Views/book-details/book-details.component';
+import { PageNotFoundComponent } from './Layout/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   {
-    path: 'dashboard',
+    path:'',redirectTo:'/login',pathMatch:"full"
+  },
+  {
+    path: 'login',
+    component:LoginComponent
+  },
+  {
+    path: '',
     component: AdminDashboardComponent, 
     children: [
       {
@@ -24,8 +32,6 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: '',
-    component:LoginComponent
-  },
+  
+  { path: '**', component: PageNotFoundComponent },
 ];

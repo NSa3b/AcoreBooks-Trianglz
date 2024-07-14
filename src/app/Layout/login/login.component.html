@@ -1,40 +1,63 @@
 <main class="flex justify-center items-center m-20">
-  <div class="rounded-2xl bg-white">
+  <div class="rounded-2xl bg-white overflow-hidden">
     <div class="grid grid-cols-5">
-      <div class="col-span-3 p-20 flex flex-col gap-6">
+      <div class="col-span-3 xl:p-20 md:p-10 p-4 flex flex-col gap-6">
         <p class="text-2xl font-bold">
           Please enter your email and password to access you account
         </p>
         <form class="w-full flex flex-col gap-6">
-
-          <p-floatLabel class="w-full">
+          <div class="flex flex-col gap-1">
             <input
+              type="email"
+              name="email"
+              id="email"
+              required
               pInputText
-              id="username"
+              aria-describedby="username-help"
               [(ngModel)]="email"
-              required 
+              placeholder="Email address"
+              #email="ngModel"
             />
-            <label for="username">Username</label>
-          </p-floatLabel>
+            @if(email.invalid && (email.dirty || email.touched)){
+              <small class="text-red-700">
+                email is required
+              </small>
+            }
+           
+          </div>
 
-          <p-floatLabel class="w-full">
-            <p-password required  id="password" [(ngModel)]="password" [toggleMask]="true" />
-            <label for="password">Password</label>
-          </p-floatLabel>
-
+          <div class="flex flex-col gap-1">
+            <p-password
+            required
+            placeholder="password"
+            name="password"
+            id="password"
+            [(ngModel)]="password"
+            [toggleMask]="true"
+          />
+            <small id="username-help">
+              Enter your username to reset your password.
+            </small>
+          </div>
           <p class="text-sm text-blue-800">forget password?</p>
-          
-          <button (click)="login()" class="bg-blue-800 py-3 px-8 text-white font-semibold rounded-xl w-fit">sign In</button>
-          
+          <button
+            (click)="login()"
+            class="bg-blue-800 py-3 px-8 text-white font-semibold rounded-xl w-fit"
+          >
+            sign In
+          </button>
         </form>
-        <hr>
-        <div>
-          <img src="assets/images/logo.png" alt="Logo"/>
+        <hr />
+        <div class="w-28 h-auto">
+          <img class="w-full h-full" src="assets/images/logo.png" alt="Logo" />
         </div>
       </div>
-      <div class="col-span-2">
-        <p>ay 7aga</p>
-        <img />
+      <div class="col-span-2 bg-slate-800 w-full h-full">
+        <img
+          class="w-full h-full object-cover"
+          src="../../../assets/images/bookshelves.png"
+          alt="books"
+        />
       </div>
     </div>
   </div>

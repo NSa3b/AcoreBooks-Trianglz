@@ -1,10 +1,22 @@
-<nav>
-    <ul>
-      <li><a routerLink="/allBooks">All Books</a></li>
-      <li><a routerLink="/addBook">Add Book</a></li>
-      <li><a routerLink="/bookDetails">Book Details</a></li>
-      <li><a routerLink="/">Logout</a></li>
-     
-    </ul>
-</nav>
+<nav class="h-full flex items-center justify-between">
+  <p class="text-blue-700 font-bold">Acore Admin Dashboard</p>
+  <div>
+   
+      <p-menubar [model]="items">
+        <ng-template pTemplate="item" let-item>
+          <ng-container *ngIf="item.route; else noLink">
+              <a [routerLink]="item.route" class="p-menuitem-link">     
+                <span class="ml-2">{{ item.label }}</span>
+              </a>
+          </ng-container>
+          <ng-template #noLink>
+              <div class="p-menuitem-link">                 
+                <span class="ml-2">{{ item.label }}</span>
+              </div>
+          </ng-template>
+      </ng-template>
+      </p-menubar>
+   
 
+  </div>
+</nav>
