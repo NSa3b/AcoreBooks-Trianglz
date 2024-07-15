@@ -126,48 +126,48 @@ export class EditBookComponent implements OnInit {
     }
   }
   onSubmit() {
-    this.bookForm.markAllAsTouched();
     let isbn = this.bookForm.value.ISBN;
     if (isbn != '') {
       this.checkISBN(isbn);
     }
+
     if (this.bookForm.valid) {
       this.booksService.editBook(this.bookId,this.bookForm.value).subscribe((data) => {
         this.router.navigate(['/bookDetails',this.bookId]);
       });
     } else {
-      this.bookForm.markAsTouched();
+      this.bookForm.markAllAsTouched();
     }
   }
   onCoverChange(event: any) {
-    // if (event.target.files.length > 0) {
-    //   let imgFile = event.target.files[0];
-    //   this.bookCover = imgFile;
-    //   this.bookCoverURL = URL.createObjectURL(imgFile);
-    // }
-    // if (this.bookCover) {
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(this.bookCover);
-    //   reader.onload = () => {
-    //     const base64String = reader.result as string;
-    //     this.bookForm.patchValue({ imgURL: base64String });
-    //   };
-    // }
+    if (event.target.files.length > 0) {
+      let imgFile = event.target.files[0];
+      this.bookCover = imgFile;
+      this.bookCoverURL = URL.createObjectURL(imgFile);
+    }
+    if (this.bookCover) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.bookCover);
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        this.bookForm.patchValue({ imgURL: base64String });
+      };
+    }
   }
   onFileChange(event: any) {
-    // if (event.target.files.length > 0) {
-    //   let PDFFile = event.target.files[0];
-    //   this.bookPDF = PDFFile;
-    //   this.bookPDFName = event.target.files[0].name;
-    // }
-    // if (this.bookPDF) {
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(this.bookPDF);
-    //   reader.onload = () => {
-    //     const base64String = reader.result as string;
-    //     this.bookForm.patchValue({ PDF: base64String });
-    //   };
-    // }
+    if (event.target.files.length > 0) {
+      let PDFFile = event.target.files[0];
+      this.bookPDF = PDFFile;
+      this.bookPDFName = event.target.files[0].name;
+    }
+    if (this.bookPDF) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.bookPDF);
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        this.bookForm.patchValue({ PDF: base64String });
+      };
+    }
   }
 }
 

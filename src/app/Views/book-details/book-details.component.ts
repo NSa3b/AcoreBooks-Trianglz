@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 import { provideRouter } from '@angular/router';
 
 import { Book } from '../../_models/Book';
@@ -11,7 +12,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [RouterLink, ConfirmDialogModule],
+  imports: [RouterLink, ConfirmDialogModule,DatePipe],
   providers: [BooksService, ConfirmationService, MessageService],
   templateUrl: './book-details.component.html',
   styleUrl: './book-details.component.css',
