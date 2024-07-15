@@ -1,1 +1,226 @@
-<p>add-book works!</p>
+<main class="flex flex-col gap-5">
+  <p class="text-3xl font-bold text-stone-600">Add Book</p>
+  <div class="w-full rounded-2xl bg-white">
+    <form
+      [formGroup]="bookForm"
+      (ngSubmit)="onSubmit()"
+      class="p-10 grid grid-cols-2 gap-5"
+    >
+      <div class="flex flex-col gap-5">
+        <div>
+          <input
+            type="text"
+            id="title"
+            pInputText
+            placeholder="Book Title *"
+            formControlName="title"
+          />
+          @if(bookForm.get('title')?.hasError('required')&&
+          bookForm.get('title')?.touched){
+          <p class="text-xs font-medium text-pink-500">
+            Book Title is required
+          </p>
+          }
+        </div>
+        <div>
+          <input
+            type="text"
+            id="author"
+            pInputText
+            placeholder="Book Author *"
+            formControlName="author"
+          />
+          @if(bookForm.get('author')?.hasError('required')&&
+          bookForm.get('author')?.touched){
+          <p class="text-xs font-medium text-pink-500">
+            Book Author is required
+          </p>
+          }
+        </div>
+
+        <div>
+          <p-dropdown
+            formControlName="category"
+            [options]="categories"
+            optionLabel="name"
+            placeholder="Category *"
+          />
+          @if(bookForm.get('category')?.hasError('required') &&
+          bookForm.get('category')?.touched){
+          <p class="text-xs font-medium text-pink-500">
+            Book Category is required
+          </p>
+          }
+        </div>
+        <div>
+          <p-inputNumber
+            type="number"
+            id="price"
+            inputId="currency-us"
+            mode="currency"
+            currency="USD"
+            [minFractionDigits]="2"
+            placeholder="Book Price *"
+            formControlName="price"
+          />
+          @if(bookForm.get('price')?.hasError('required') &&
+          bookForm.get('price')?.touched){
+          <p class="text-xs font-medium text-pink-500">
+            Book Price is required
+          </p>
+          }
+        </div>
+        <div>
+          <input
+            type="text"
+            id="version"
+            pInputText
+            placeholder="Book Version *"
+            formControlName="version"
+          />
+          @if(bookForm.get('version')?.hasError('required') &&
+          bookForm.get('version')?.touched){
+          <p class="text-xs font-medium text-pink-500">
+            Book Version is required
+          </p>
+          }
+        </div>
+
+        <p-dropdown
+          formControlName="older_versions"
+          [options]="older_versions"
+          optionLabel="name"
+          placeholder="Book Older Versions"
+        />
+        <input
+          type="text"
+          id="edition"
+          pInputText
+          placeholder="Book edition"
+          formControlName="edition"
+        />
+        <div>
+          <input
+            type="text"
+            id="ISBN"
+            pInputText
+            placeholder="ISBN *"
+            formControlName="ISBN"
+          />
+          @if(bookForm.get('ISBN')?.touched){
+            @if(bookForm.get('ISBN')?.hasError('required')){
+              <p class="text-xs font-medium text-pink-500">Book ISBN is required</p>
+            }
+            @if(!ValidISBN){
+            <p class="text-xs font-medium text-pink-500">Book ISBN accepts only
+              numbers and dashes (13 digit) ex: 978-3-16-148410-0</p>
+            }
+          }
+         
+        </div>
+
+        <p-calendar
+          placeholder="Book Release Date"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          inputId="icondisplay"
+          formControlName="release_date"
+        />
+      </div>
+      <div class="flex flex-col items-center gap-7">
+        <div class="bg-white w-32 h-52 rounded-md book relative">
+          <i class="text-zinc-400 pi pi-bookmark-fill absolute -bottom-4 left-5"></i>
+          <div class="rounded-md w-full h-full overflow-hidden">
+            @if(bookCoverURL!=''){
+            <img class="w-full h-full object-cover" [src]="bookCoverURL" />
+            }
+          </div>
+        </div>
+        <p class="text-zinc-500 text-xs">
+          Best Dimensions for book cover image are 128*200
+        </p>
+        <div class="flex w-full items-start justify-center gap-5">
+          <div class="flex flex-col gap-1">
+            <label
+              for="filepath"
+              class="border border-pink-500 py-3 px-5 text-pink-500 rounded-xl w-fit md:text-sm text-xs">
+               Upload Book Cover *
+            </label>
+            <input
+              (change)="onCoverChange($event)"
+              id="filepath"
+              class="hidden"
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              formControlName="imgURL"
+            />
+            @if(bookForm.get('imgURL')?.hasError('required') &&
+            bookForm.get('imgURL')?.touched){
+            <p class="text-xs font-medium text-pink-500">
+              Book Cover is required
+            </p>
+            }
+          </div>
+          <div class="flex flex-col gap-1">
+            <label
+              for="PDFfilepath"
+              class="border border-pink-500 py-3 px-5 text-pink-500 rounded-xl w-fit md:text-sm text-xs">
+              Upload Book(.PDF) *
+            </label>
+            <input
+              (change)="onFileChange($event)"
+              id="PDFfilepath"
+              class="hidden"
+              type="file"
+              accept=".pdf"
+              formControlName="PDF"
+            />
+            @if(bookForm.get('PDF')?.hasError('required') &&
+            bookForm.get('PDF')?.touched){
+            <p class="text-xs font-medium text-pink-500">
+              Book PDF is required
+            </p>
+            }
+          </div>
+        </div>
+        @if(bookPDFName!=''){
+          <div class="w-full py-2 px-4 rounded-xl bg-stone-100">
+            <p>{{bookPDFName}}</p>
+          </div>
+        }
+        
+        <div class="w-full">
+          <textarea
+            rows="5"
+            cols="30"
+            placeholder="Book Brief *"
+            pInputTextarea
+            formControlName="brief"
+            maxlength="800"
+          >
+          </textarea>
+          @if(bookForm.get('brief')?.hasError('required') &&
+          bookForm.get('brief')?.touched){
+          <p class="text-xs font-medium text-pink-500">
+            Book Brief is required
+          </p>
+          }
+        </div>
+
+        <div class="flex w-full items-center justify-end gap-5">
+          <a routerLink="/allBooks"
+            class="bg-zinc-200 py-2.5 px-5 text-black font-semibold rounded-xl w-fit md:text-sm text-xs"
+          >
+            Cancel
+          </a>
+          <button
+            type="submit"
+            class="bg-blue-800 py-2.5 px-5 text-white font-semibold rounded-xl w-fit md:text-sm text-xs"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

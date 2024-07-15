@@ -35,11 +35,20 @@
   border-radius: 12px;
   padding: 0.5rem 0.75rem;
 }
-.p-input-icon-right{
+.p-dropdown{
+  width: 100%;
+  border-radius: 12px;
+}
+
+.p-inputwrapper,
+.p-input-icon-right,
+.p-calendar,
+.p-inputnumber{
   width: 100%;
 }
+
 .p-menubar {
-  padding: 0rem; 
+padding: 0rem; 
  background: white;
  color: none; 
  border: none; 

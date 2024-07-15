@@ -4,6 +4,7 @@ import { AdminDashboardComponent } from './Layout/admin-dashboard/admin-dashboar
 import { AllBooksComponent } from './Views/all-books/all-books.component';
 import { AddBookComponent } from './Views/add-book/add-book.component';
 import { BookDetailsComponent } from './Views/book-details/book-details.component';
+import { EditBookComponent } from './Views/edit-book/edit-book.component';
 import { PageNotFoundComponent } from './Layout/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
@@ -27,8 +28,12 @@ export const routes: Routes = [
         component: AddBookComponent, 
       },
       {
-        path: 'bookDetails',
+        path: 'bookDetails/:id',
         component: BookDetailsComponent, 
+      },
+      {
+        path: 'editBook/:id',
+        component: EditBookComponent, 
       },
     ],
   },

@@ -5,43 +5,47 @@
         <p class="text-2xl font-bold">
           Please enter your email and password to access you account
         </p>
-        <form class="w-full flex flex-col gap-6">
-          <div class="flex flex-col gap-1">
+        <form [formGroup]="loginForm"
+        (ngSubmit)="login()" class="w-full flex flex-col gap-5">
+          <div>
             <input
               type="email"
-              name="email"
               id="email"
-              required
               pInputText
-              aria-describedby="username-help"
-              [(ngModel)]="email"
-              placeholder="Email address"
-              #email="ngModel"
+              placeholder="Email address *"
+              formControlName="email"
             />
-            @if(email.invalid && (email.dirty || email.touched)){
-              <small class="text-red-700">
-                email is required
-              </small>
+            @if(loginForm.get('email')?.hasError('required')&&
+            loginForm.get('email')?.touched){
+            <p class="text-xs font-medium text-pink-500">
+              email is required
+            </p>
             }
-           
+            @if(InvalidEmail){
+            <p class="text-xs font-medium text-pink-500">
+              Wrong Email address
+            </p>
+            }
           </div>
-
-          <div class="flex flex-col gap-1">
+          <div>
             <p-password
-            required
-            placeholder="password"
-            name="password"
-            id="password"
-            [(ngModel)]="password"
-            [toggleMask]="true"
-          />
-            <small id="username-help">
-              Enter your username to reset your password.
-            </small>
+              type="password"
+              id="password"
+              [toggleMask]="true"
+              [feedback]="false"
+              placeholder="Password *"
+              formControlName="password"
+            />
+            @if(loginForm.get('password')?.hasError('required')&&
+            loginForm.get('password')?.touched){
+            <p class="text-xs font-medium text-pink-500">
+              password is required
+            </p>
+            }
           </div>
           <p class="text-sm text-blue-800">forget password?</p>
           <button
-            (click)="login()"
+          type="submit"
             class="bg-blue-800 py-3 px-8 text-white font-semibold rounded-xl w-fit"
           >
             sign In

@@ -1,1 +1,85 @@
-<p>book-details works!</p>
+<main class="flex flex-col gap-5">
+  <p class="text-3xl font-bold text-stone-600">Book Details</p>
+  <div class="w-full rounded-2xl bg-white p-10">
+    <div class="flex items-start justify-between">
+      <div class="flex space-x-7">
+        <div class="bg-white w-32 h-52 rounded-md book relative">
+          <i
+            class="text-zinc-400 pi pi-bookmark-fill absolute -bottom-4 left-5"
+          ></i>
+          <div class="rounded-md w-full h-full overflow-hidden">
+            @if(book.imgURL){
+            <img class="w-full h-full object-cover" [src]="book.imgURL" />
+            }
+          </div>
+        </div>
+        <div class="flex flex-col gap-5">
+          <p class="xl:text-xl text-base font-bold text-stone-600">
+            {{ book.title }}
+          </p>
+          <div class="flex space-x-5">
+            <div>
+              <p class="text-blue-800 font-bold">{{ bookPages }}</p>
+              <p class="text-xs text-stone-600 font-medium">Pages</p>
+            </div>
+            <div>
+              <p class="text-blue-800 font-bold">{{ toRead }}h</p>
+              <p class="text-xs text-stone-600 font-medium">To read</p>
+            </div>
+          </div>
+          <p class="xl:text-xl text-base font-bold text-blue-800">
+            ${{ book.price }}
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-3">
+        <button
+          (click)="Delete($event, book.id)"
+          label="Delete"
+          severity="danger"
+          class="bg-red-800 py-2.5 px-5 text-white font-semibold rounded-xl w-fit md:text-sm text-xs"
+        >
+          Delete
+        </button>
+        <a
+          [routerLink]="['/editBook', book.id]"
+          class="bg-blue-800 py-2.5 px-5 text-white font-semibold rounded-xl w-fit md:text-sm text-xs"
+        >
+          Edit
+        </a>
+      </div>
+    </div>
+    <div class="mt-10 space-x-20 flex items-start">
+      <div>
+        <div class="flex items-center mb-5">
+          <p class="font-bold">Author :</p>
+          <p>{{ book.author }}</p>
+        </div>
+        <div class="flex items-center mb-5">
+          <p class="font-bold">Date released :</p>
+          <p>{{ book.release_date }}</p>
+        </div>
+        <div class="flex items-center mb-5">
+          <p class="font-bold">ISBN :</p>
+          <p>{{ book.ISBN }}</p>
+        </div>
+        <div class="flex items-center mb-5">
+          <p class="font-bold">Version :</p>
+          <p>{{ book.version }}</p>
+        </div>
+        <div
+          class="bg-stone-200 rounded-full flex items-center justify-center mb-5 w-fit py-2 px-4"
+        >
+          <p>{{ book.category.name }}</p>
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center mb-5">
+          <p class="font-bold">Brief :</p>
+          <p>{{ book.brief }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<p-confirmDialog />

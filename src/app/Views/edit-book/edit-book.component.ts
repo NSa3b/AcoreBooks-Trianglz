@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { Router, RouterLink} from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
@@ -22,7 +22,7 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-add-book',
+  selector: 'app-edit-book',
   standalone: true,
   imports: [
     InputTextModule,
@@ -33,10 +33,14 @@ import {
     ReactiveFormsModule,
     RouterLink,
   ],
-  templateUrl: './add-book.component.html',
-  styleUrl: './add-book.component.css',
+  templateUrl: './edit-book.component.html',
+  styleUrl: './edit-book.component.css'
 })
-export class AddBookComponent implements OnInit {
+export class EditBookComponent implements OnInit {
+  bookId!:number;
+  imgPath!:string;
+
+
   categories: category[]| undefined;
   older_versions = [
     { name: '1st Edition' },
@@ -44,20 +48,12 @@ export class AddBookComponent implements OnInit {
     { name: '3rd Edition' },
   ];
   bookForm!: FormGroup;
-
   bookCover: File | null = null;
   bookCoverURL: String = '';
 
   bookPDF: File | null = null;
   bookPDFName: String = '';
   ValidISBN: Boolean = false;
-
-  // ISBNValidator(nameRe: RegExp): ValidatorFn {
-  //   return (control: AbstractControl): ValidationErrors | null => {
-  //     const incorrect = nameRe.test(control.value);
-  //     return incorrect ? {incorrectISBN: {value: control.value}} : null;
-  //   };
-  // }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -77,14 +73,38 @@ export class AddBookComponent implements OnInit {
       category: new FormControl<category|null>(null, [Validators.required]),
       price: new FormControl(null, [Validators.required]),
       version: new FormControl('', [Validators.required]),
-      ISBN: new FormControl('', [
-        Validators.required,
-        // this.ISBNValidator(/^(?=(?:[^0-9]*[0-9]){10}(?:(?:[^0-9]*[0-9]){3})?$)[\\d-]+$/)
-      ]),
+      ISBN: new FormControl('', [Validators.required]),
       edition: new FormControl(''),
       release_date: new FormControl<Date | null>(null),
       older_versions: new FormControl(null),
     });
+  }
+  @Input()
+  set id(bookId: number) {
+    this.booksService.getBookById(bookId).subscribe((data)=>{
+      console.log(data);
+      this.bookId=bookId;
+      this.imgPath=data.imgURL
+      console.log(this.imgPath);
+
+
+      if(data){
+       this.bookForm.patchValue({
+        title:data?.title,
+        brief:data?.brief,
+        author:data?.author,
+        category:data?.category,
+        price:data?.price,
+        version:data?.version,
+        ISBN:data?.ISBN,
+        edition:data?.edition,
+        release_date:data?.release_date,
+        older_versions:data?.older_versions,
+       });
+       console.log(this.bookForm.value)
+      }
+   
+    })
   }
   ngOnInit() {
     this.getAllCategories();
@@ -112,41 +132,42 @@ export class AddBookComponent implements OnInit {
       this.checkISBN(isbn);
     }
     if (this.bookForm.valid) {
-      this.booksService.addBook(this.bookForm.value).subscribe((data) => {
-        this.router.navigate(['/allBooks']);
+      this.booksService.editBook(this.bookId,this.bookForm.value).subscribe((data) => {
+        this.router.navigate(['/bookDetails',this.bookId]);
       });
     } else {
       this.bookForm.markAsTouched();
     }
   }
   onCoverChange(event: any) {
-    if (event.target.files.length > 0) {
-      let imgFile = event.target.files[0];
-      this.bookCover = imgFile;
-      this.bookCoverURL = URL.createObjectURL(imgFile);
-    }
-    if (this.bookCover) {
-      const reader = new FileReader();
-      reader.readAsDataURL(this.bookCover);
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        this.bookForm.patchValue({ imgURL: base64String });
-      };
-    }
+    // if (event.target.files.length > 0) {
+    //   let imgFile = event.target.files[0];
+    //   this.bookCover = imgFile;
+    //   this.bookCoverURL = URL.createObjectURL(imgFile);
+    // }
+    // if (this.bookCover) {
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(this.bookCover);
+    //   reader.onload = () => {
+    //     const base64String = reader.result as string;
+    //     this.bookForm.patchValue({ imgURL: base64String });
+    //   };
+    // }
   }
   onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      let PDFFile = event.target.files[0];
-      this.bookPDF = PDFFile;
-      this.bookPDFName = event.target.files[0].name;
-    }
-    if (this.bookPDF) {
-      const reader = new FileReader();
-      reader.readAsDataURL(this.bookPDF);
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        this.bookForm.patchValue({ PDF: base64String });
-      };
-    }
+    // if (event.target.files.length > 0) {
+    //   let PDFFile = event.target.files[0];
+    //   this.bookPDF = PDFFile;
+    //   this.bookPDFName = event.target.files[0].name;
+    // }
+    // if (this.bookPDF) {
+    //   const reader = new FileReader();
+    //   reader.readAsDataURL(this.bookPDF);
+    //   reader.onload = () => {
+    //     const base64String = reader.result as string;
+    //     this.bookForm.patchValue({ PDF: base64String });
+    //   };
+    // }
   }
 }
+

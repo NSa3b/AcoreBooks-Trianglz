@@ -8,21 +8,31 @@
         type="text"
         pInputText
         placeholder="Search"
+        (input)="onBookSearch($event)"
+
       />
     </p-iconField>
-    <button
+    <a
+      routerLink="/addBook"
       class="bg-blue-800 py-2.5 px-5 text-white font-semibold rounded-xl w-fit md:text-sm text-xs"
     >
       <i class="pi pi-plus md:text-sm text-xs"></i>
       Add Book
-    </button>
+    </a>
   </div>
-  <div class="card">
-    <p-table [value]="books" [tableStyle]="{ 'min-width': '50rem' }">
+  <div class="card rounded-2xl overflow-hidden">
+    <p-table
+      #bookTable
+      [value]="filteredBooks"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [paginator]="true"
+      [rows]="5"
+      [globalFilterFields]="['title', 'author']"
+    >
       <ng-template pTemplate="header">
         <tr>
           <th>Book Title</th>
-          <th>Bok Category</th>
+          <th>Book Category</th>
           <th>Book Author</th>
           <th>Book ISBN</th>
           <th>Book Version</th>
@@ -32,27 +42,25 @@
       <ng-template pTemplate="body" let-book>
         <tr>
           <td>{{ book.title }}</td>
+          <td>{{ book.category.name }}</td>
           <td>{{ book.author }}</td>
-          <td>{{ book.category }}</td>
           <td>{{ book.ISBN }}</td>
           <td>{{ book.version }}</td>
           <td>
             <div class="flex gap-4">
-              <a routerLink="/bookDetails"
+              <a [routerLink]="['/bookDetails', book.id]"
                 ><span class="pi pi-eye text-blue-800"></span
               ></a>
-              <a routerLink="/addBook"
+              <a [routerLink]="['/editBook', book.id]"
                 ><span class="pi pi-pencil text-green-800"></span
               ></a>
-              <span
-                (onClick)="confirm2($event)"
+              <button
+                (click)="Delete($event, book.id)"
                 label="Delete"
                 severity="danger"
-                [outlined]="true"
-                class="pi pi-trash text-red-800"
-              ></span>
-
-              <p-confirmDialog />
+              >
+                <i class="pi pi-trash text-red-800"></i>
+              </button>
             </div>
           </td>
         </tr>
@@ -60,3 +68,4 @@
     </p-table>
   </div>
 </main>
+<p-confirmDialog />
