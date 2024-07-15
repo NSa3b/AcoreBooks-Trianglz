@@ -2,13 +2,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.0.
 
-## Development server
+## Run Json-server 
+ JSON server is an npm package that gives a full fake REST API for front-end developers who need a quick back-end for prototyping and mocking.
+**make sure to run the db.json watcher before compiling the vue app.**
 
+```sh
+json-server --watch db.json
+```
+
+## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
+```sh
+ng serve
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
